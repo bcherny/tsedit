@@ -1,0 +1,93 @@
+* { border: 0; margin: 0; outline: 0; padding: 0; }
+
+body {
+  background: #f9f9f9;
+  color: #3f4348; /* slightly blue */
+  font: 12px/20px Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #0052BF;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+acronym {
+  border-bottom: 1px dashed rgba(255, 255, 255, .5);
+  cursor: help;
+}
+acronym:hover {
+  background: rgba(0, 0, 0, .2);
+  border-bottom-color: rgba(255, 255, 255, .7);
+}
+
+sup a {
+  font-size: 12px;
+}
+
+code, .Code {
+  background: #fff;
+  font: 18px/34px "Fira Code", "DejaVu Sans Mono", "Bitstream Vera Sans Mono", Menlo, Monaco, Consolas, "Andale Mono", "Lucida Sans Typewriter", "Consolas", "Lucida Console", "Courier New", monospace !important;
+  padding: 4px 6px;
+  white-space: pre-wrap;
+}
+
+pre code, .Code {
+  display: block;
+  overflow: auto;
+  padding: 20px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-weight: 600;
+}
+
+table {
+  background-color: #f3f3f3;
+  background-image: linear-gradient(-180deg, #eee, #f9f9f9);
+  border-collapse: collapse;
+  font: 13px Helvetica, Arial, sans-serif;
+  margin: 10px 0 20px;
+  width: 100%;
+}
+table a {
+  display: block;
+}
+
+td,
+th {
+  border-right: 1px solid #ddd;
+  padding: 5px 10px;
+  text-align: left;
+}
+td:last-child,
+th:last-child {
+  border-right: 0;
+}
+td.num,
+th.num {
+  background: #eee;
+  text-align: center;
+}
+
+td:first-child {
+  font-weight: bold;
+}
+
+th {
+  border-bottom: 1px solid #ddd;
+  padding: 10px;
+}
+
+.Columns {
+  display: flex;
+}
+
+.Columns > div {
+  flex: 1;
+}
