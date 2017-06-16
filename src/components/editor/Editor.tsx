@@ -17,7 +17,7 @@ export class Editor extends React.Component<Props, State> {
 
   render() {
     return <textarea
-      className='Code'
+      className='Code Editor'
       onChange={this.onChange}
       onKeyDown={this.onKeyDown}
       value={this.state.text}

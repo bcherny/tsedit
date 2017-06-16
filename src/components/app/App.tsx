@@ -21,10 +21,8 @@ export class App extends React.Component<Props, State> {
 
   render() {
     return <div className='Columns'>
-      <div className='Column Left'>
-        <div ref={this.onRenderEditor}>
-          <Editor onChange={this.evaluate} />
-        </div>
+      <div className='Column Left' ref={this.onRenderEditor}>
+        <Editor onChange={this.evaluate} />
       </div>
       <div className='Column Right'>
         {this.state.results.map(({ count, result, topOffset }) =>
@@ -36,13 +34,13 @@ export class App extends React.Component<Props, State> {
     </div>
   }
 
-  evaluate = (ts: string) => {
+  evaluate = async (ts: string) => {
     this.setState({
       count: this.state.count + 1,
       results: this.state.results.concat({
         code: ts,
         count: this.state.count,
-        result: run(compile(ts)),
+        result: await run(compile(ts)),
         topOffset: this.state.editorTopOffset
       })
     })

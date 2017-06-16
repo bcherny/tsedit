@@ -1,5 +1,13 @@
 * { border: 0; margin: 0; outline: 0; padding: 0; }
 
+html,
+body,
+#App,
+.Columns {
+  height: 100%;
+  width: 100%;
+}
+
 body {
   background: #f9f9f9;
   color: #3f4348; /* slightly blue */
@@ -82,12 +90,4 @@ td:first-child {
 th {
   border-bottom: 1px solid #ddd;
   padding: 10px;
-}
-
-.Columns {
-  display: flex;
-}
-
-.Columns > div {
-  flex: 1;
 }
