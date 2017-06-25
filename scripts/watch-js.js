@@ -1,13 +1,11 @@
 const fs = require('fs')
+const {options} = require('./build-js')
 
-const b = require('browserify')({
-  entries: ['./src/index.tsx'],
-  extension: ['js', 'ts', 'tsx'],
-  // external: ['lodash', 'react', 'react-dom'],
+const b = require('browserify')(Object.assign({}, options, {
   cache: {},
   debug: true,
   packageCache: {}
-})
+}))
 .plugin('tsify', {typescript: require('typescript')})
 .plugin('watchify')
 // .transform('browserify-shim')

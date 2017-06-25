@@ -20,8 +20,7 @@
     "strict": true,
     "target": "es5",
     "typeRoots": [
-      "node_modules/monaco-editor",
-      "node_modules/@types"
+      "node_modules"
     ]
   },
   "include": [

@@ -1,11 +1,16 @@
 const fs = require('fs')
 
-require('browserify')({
-    debug: true,
-    entries: ['./src/index.tsx'],
-    extension: ['js', 'ts', 'tsx'],
-    external: ['lodash', 'react', 'react-dom']
-  })
+module.exports.options = {
+  debug: true,
+  detectGlobals: false,
+  entries: ['./src/index.tsx'],
+  extension: ['js', 'ts', 'tsx'],
+  external: ['lodash', 'react', 'react-dom'],
+  insertGlobalVars: false,
+  bare: true
+}
+
+require('browserify')(module.exports.options)
   .plugin('tsify', {
     typescript: require('typescript')
   })

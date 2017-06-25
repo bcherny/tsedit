@@ -7,7 +7,8 @@
     "build:css": "postcss -c ./scripts/postcss.config.js -o ./dist/bundle.css ./src/index.css",
     "build:html": "./scripts/build-html.js < ./src/index.html > ./dist/index.html",
     "build:js": "node ./scripts/build-js.js",
-    "build": "npm run clean; concurrently -k 'npm run build:js' 'npm run build:html' 'npm run build:css'",
+    "build:js:monaco": "cp ./node_modules/monaco-editor/min/vs/loader.js ./dist/loader.js",
+    "build": "npm run clean; concurrently -k 'npm run build:js' 'npm run build:js:monaco' 'npm run build:html' 'npm run build:css'",
     "clean": "rm -rf dist; mkdir dist",
     "lint:js": "tslint src",
     "serve": "static dist",
@@ -16,13 +17,14 @@
     "watch:css": "postcss -w -c ./scripts/postcss.config.js -o ./dist/bundle.css ./src/index.css",
     "watch:html": "watch \"npm run build:html\" src/",
     "watch:js": "node ./scripts/watch-js.js",
-    "watch": "npm run clean; concurrently -k 'npm run watch:js' 'npm run watch:html' 'npm run watch:css'"
+    "watch": "npm run clean; npm run build:js:monaco; concurrently -k 'npm run watch:js' 'npm run watch:html' 'npm run watch:css'"
   },
   "author": "Boris Cherny <boris@performancejs.com> (https://performancejs.com)",
   "license": "MIT",
   "devDependencies": {
     "@types/highlight.js": "^9.1.9",
     "@types/markdown-it": "0.0.2",
+    "@types/node": "^7.0.31",
     "@types/react": "^15.0.28",
     "@types/react-dom": "^15.5.0",
     "@types/requirejs": "^2.1.29",
