@@ -7,8 +7,13 @@
   position: relative;
 }
 
-.Columns > .Column > .Editor {
+.Columns > .EditorContainer > div {
   box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+}
+
+.Columns > .EditorContainer > div > .Editor {
   height: 100%;
   width: 100%;
 }

@@ -21,10 +21,10 @@ export class App extends React.Component<Props, State> {
 
   render() {
     return <div className='Columns'>
-      <div className='Column Left' ref={this.onRenderEditor}>
+      <div className='Column Left EditorContainer' ref={this.onRenderEditor}>
         <Editor onChange={this.evaluate} />
       </div>
-      <div className='Column Right'>
+      <div className='Column Right ResultsContainer'>
         {this.state.results.map(({ count, result, topOffset }) =>
           <div className='Result' key={count} style={{ top: topOffset }}>
             { result }

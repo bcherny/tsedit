@@ -24,14 +24,14 @@ export class Editor extends React.Component<Props, State> {
     </div>
   }
 
-  run = () =>
-    this.props.onChange(this.state.text)
-
-  onChange = (e: React.ChangeEvent<HTMLTextAreaElement>) =>
-    this.setState({ text: e.currentTarget.value })
+  run = () => {
+    let text = this.state.editor
+      ? this.state.editor.getValue()
+      : ''
+    this.props.onChange(text)
+  }
 
   onKeyDown = (e: monaco.IKeyboardEvent) => {
-    console.log('onkey', e.keyCode, e.metaKey)
     if (e.keyCode === monaco.KeyCode.Enter && e.metaKey) {
       this.run()
     }
@@ -43,26 +43,22 @@ export class Editor extends React.Component<Props, State> {
     }
     this.setState({ isLoadingEditor: true });
     (window as any).require(['vs/editor/editor.main'], () => {
-      let editor = monaco.editor.create(div, {
-        value: this.state.text,
-        language: 'javascript'
-      })
-
-      let modifier = editor.createContextKey('modifier', false)
-
-      editor.addCommand(monaco.KeyCode.Enter, function() {
-        console.log('command enter')
-      }, 'modifier')
-
-      editor.addCommand(monaco.KeyCode.Meta, e => {
-        console.log('meta', e)
-        modifier.set(true)
-      }, '')
-
-      // editor.onKeyUp(this.onKeyDown)
-      editor.onDidChangeModelContent(({ text }) =>
-        this.setState({ text })
-      )
+      let options: monaco.editor.IEditorConstructionOptions = {
+        contextmenu: false,
+        fontFamily: 'Fira Mono',
+        fontLigatures: true,
+        fontSize: 18,
+        formatOnPaste: true,
+        formatOnType: true,
+        language: 'typescript',
+        lineHeight: 28,
+        lineNumbers: 'off',
+        renderLineHighlight: 'none',
+        value: '',
+        wordWrap: true
+      }
+      let editor = monaco.editor.create(div, options)
+      editor.onKeyDown(this.onKeyDown)
       this.setState({ editor, isLoadingEditor: false })
     })
   }
