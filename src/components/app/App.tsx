@@ -11,6 +11,8 @@ type State = {
   results: { code: string, count: number, result: any, topOffset: number }[]
 }
 
+const LINE_HEIGHT = 28
+
 export class App extends React.Component<Props, State> {
 
   state: State = {
@@ -22,8 +24,8 @@ export class App extends React.Component<Props, State> {
   render() {
     return <div className='Columns'>
       <div className='Column Left EditorContainer'>
-        <Editor lineNumberOffset={0} isReadOnly={true} height={this.committedLines() * 28} value={this.state.committedEdits.join('\n')} />
-        <Editor lineNumberOffset={this.committedLines()} onChange={this.evaluate} value='' />
+        <Editor lineNumberOffset={0} isReadOnly={true} height={this.committedLines() * LINE_HEIGHT} value={this.state.committedEdits.join('\n')} />
+        <Editor lineNumberOffset={this.committedLines()} onChange={this.evaluate} value='' lib={this.state.committedEdits.join('\n')} />
       </div>
       <div className='Column Right ResultsContainer'>
         {this.state.results.map(({ count, result, topOffset }) =>
@@ -46,8 +48,8 @@ export class App extends React.Component<Props, State> {
       results: [...this.state.results, {
         code: ts,
         count: this.state.count,
-        result: await run(compile(ts)),
-        topOffset: top
+        result: await run(compile(this.state.committedEdits.join('\n') + '\n' + ts)),
+        topOffset: top + (this.committedLines() * LINE_HEIGHT)
       }]
     })
   }

@@ -1,3 +1,4 @@
 @import "./components/app/App.css";
 @import "./components/columns/Columns.css";
+@import "./components/editor/Editor.css";
 @import "./components/markdown/Markdown.css";

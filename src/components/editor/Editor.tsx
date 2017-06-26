@@ -7,15 +7,19 @@ import * as React from 'react'
 type Props = {
   height?: number
   isReadOnly?: boolean
+  lib?: string
   lineNumberOffset: number
   onChange?(text: string, top: number): void
   value: string
 }
 
 type State = {
+  div?: HTMLDivElement
   editor?: monaco.editor.IStandaloneCodeEditor
   isLoadingEditor: boolean
+  libCount: number
   text: string
+  width?: number
 }
 
 const MONACO_OPTIONS: monaco.editor.IEditorConstructionOptions = {
@@ -36,15 +40,29 @@ const MONACO_OPTIONS: monaco.editor.IEditorConstructionOptions = {
   wordWrap: true
 }
 
+const READONLY_OPTIONS: monaco.editor.IEditorConstructionOptions = {
+  readOnly: true,
+  scrollbar: {
+    horizontal: 'hidden',
+    vertical: 'hidden'
+  },
+  scrollBeyondLastLine: false
+}
+
 export class Editor extends React.Component<Props, State> {
 
   state: State = {
     isLoadingEditor: false,
+    libCount: 0,
     text: ''
   }
 
   render() {
-    return <div className='Editor' ref={div => this.initMonaco(div)} style={{ height: this.props.height }} />
+    return <div
+      className={'Editor' + (this.props.isReadOnly ? ' ReadOnly' : '')}
+      ref={div => this.initMonaco(div)}
+      style={{ height: this.props.height }}
+    />
   }
 
   run = () => {
@@ -66,7 +84,7 @@ export class Editor extends React.Component<Props, State> {
     if (!div || this.state.editor || this.state.isLoadingEditor) {
       return
     }
-    this.setState({ isLoadingEditor: true });
+    this.setState({ div, isLoadingEditor: true, width: div.offsetWidth });
     (window as any).require(['vs/editor/editor.main'], () => {
 
       // monaco.editor.defineTheme('QuietLight', {
@@ -87,11 +105,8 @@ export class Editor extends React.Component<Props, State> {
       // EXPENSIVE: takes ~80ms/call
       let editor = monaco.editor.create(div, {
         ...MONACO_OPTIONS,
-        lineNumbers: (n: number) => {
-          console.log('lineNumber', n)
-          return String(this.props.lineNumberOffset + n)
-        },
-        // readOnly: this.props.isReadOnly,
+        ...(this.props.isReadOnly ? READONLY_OPTIONS : {}),
+        lineNumbers: (n: number) => String(this.props.lineNumberOffset + n),
         value: this.props.value
       })
 
@@ -106,10 +121,48 @@ export class Editor extends React.Component<Props, State> {
     })
   }
 
-  componentWillUpdate({ value }: Props) {
-    if (this.state.editor && value !== undefined) {
-      console.log('set value', value)
-      this.state.editor.setValue(value)
+  onResize = () => {
+    let { div, editor } = this.state
+    if (div && editor) {
+      editor.layout({
+        height: this.props.height || div.offsetHeight,
+        width: div.offsetWidth
+      })
+    }
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.onResize)
+  }
+
+  componentWillUpdate({ height, value }: Props) {
+    let { editor, width } = this.state
+    if (editor) {
+      if (value !== undefined) {
+        editor.setValue(value)
+      }
+      if (height !== undefined && width !== undefined) {
+        editor.layout({ height, width })
+      }
+      editor.render()
+    }
+  }
+
+  componentDidUpdate() {
+    let { height, lib, value } = this.props
+    let { editor, width } = this.state
+    if (editor) {
+      if (value !== undefined) {
+        editor.setValue(value)
+      }
+      if (height !== undefined && width !== undefined) {
+        editor.layout({ height, width })
+      }
+      if (lib) {
+        // hack!
+        monaco.languages.typescript.typescriptDefaults.addExtraLib(lib, `lib${this.state.libCount++}.ts`)
+      }
+      editor.render()
     }
   }
 

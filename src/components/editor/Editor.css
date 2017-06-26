@@ -1,0 +1,15 @@
+.Editor {
+
+}
+
+.Editor .monaco-editor.vs .line-numbers {
+  color: #849398;
+}
+
+.Editor.ReadOnly {
+  opacity: .5;
+}
+
+.Editor.ReadOnly .monaco-editor.vs .line-numbers {
+  color: #bac1c3;
+}
