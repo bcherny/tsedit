@@ -8,7 +8,7 @@
     "build:html": "./scripts/build-html.js < ./src/index.html > ./dist/index.html",
     "build:js": "node ./scripts/build-js.js",
     "build:js:monaco": "cp -r ./node_modules/monaco-editor/min/vs/ ./dist/vs/ && chmod -R +r ./dist",
-    "build": "npm run clean; concurrently -k 'npm run build:js' 'npm run build:js:monaco' 'npm run build:html' 'npm run build:css'",
+    "build": "npm run clean && npm run build:js:monaco && npm run build:js && npm run build:html && npm run build:css",
     "clean": "rm -rf dist; mkdir -p dist/vs/editor",
     "lint:js": "tslint src",
     "serve": "static dist",
@@ -57,5 +57,14 @@
     "react-dom": "^15.5.4",
     "source-map-support": "^0.4.15",
     "theme-quietlight-vsc": "github:onecrayon/theme-quietlight-vsc"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim"
+    ]
+  },
+  "browserify-shim": {
+    "react": "global:React",
+    "react-dom": "global:ReactDOM"
   }
 }

@@ -8,7 +8,10 @@ const b = require('browserify')(Object.assign({}, options, {
 }))
 .plugin('tsify', {typescript: require('typescript')})
 .plugin('watchify')
-// .transform('browserify-shim')
+.transform('browserify-shim', {
+  "react": "global:React",
+  "react-dom": "global:ReactDOM"
+})
 
 function bundle() {
   return b.bundle()
