@@ -91,3 +91,28 @@ th {
   border-bottom: 1px solid #ddd;
   padding: 10px;
 }
+
+.EditorContainer {
+  background: #fffffe;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 10px 0 0 10px;
+  width: 100%;
+}
+
+.EditorContainer > .Editor {
+  height: 100%;
+  width: 100%;
+}
+
+.ResultsContainer {
+  box-sizing: border-box;
+  font: 18px/28px "Fira Mono", monospace;
+  margin-top: 10px;
+  position: relative;
+}
+
+.ResultsContainer > .Result {
+  position: absolute;
+    left: 10px;
+}

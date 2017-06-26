@@ -55,6 +55,7 @@
     "node-static": "^0.7.9",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "source-map-support": "^0.4.15"
+    "source-map-support": "^0.4.15",
+    "theme-quietlight-vsc": "github:onecrayon/theme-quietlight-vsc"
   }
 }

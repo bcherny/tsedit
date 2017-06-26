@@ -6,23 +6,24 @@ import { run } from '../../utils/run'
 type Props = {}
 
 type State = {
+  committedEdits: string[]
   count: number
-  editorTopOffset: number
   results: { code: string, count: number, result: any, topOffset: number }[]
 }
 
 export class App extends React.Component<Props, State> {
 
   state: State = {
+    committedEdits: [],
     count: 0,
-    editorTopOffset: 0,
     results: []
   }
 
   render() {
     return <div className='Columns'>
-      <div className='Column Left EditorContainer' ref={this.onRenderEditor}>
-        <Editor onChange={this.evaluate} />
+      <div className='Column Left EditorContainer'>
+        <Editor lineNumberOffset={0} isReadOnly={true} height={this.committedLines() * 28} value={this.state.committedEdits.join('\n')} />
+        <Editor lineNumberOffset={this.committedLines()} onChange={this.evaluate} value='' />
       </div>
       <div className='Column Right ResultsContainer'>
         {this.state.results.map(({ count, result, topOffset }) =>
@@ -34,19 +35,20 @@ export class App extends React.Component<Props, State> {
     </div>
   }
 
-  evaluate = async (ts: string) => {
+  committedLines() {
+    return this.state.committedEdits.reduce((prev, cur) => prev + cur.split('\n').length, 0)
+  }
+
+  evaluate = async (ts: string, top: number) => {
     this.setState({
+      committedEdits: [...this.state.committedEdits, ts],
       count: this.state.count + 1,
-      results: this.state.results.concat({
+      results: [...this.state.results, {
         code: ts,
         count: this.state.count,
         result: await run(compile(ts)),
-        topOffset: this.state.editorTopOffset
-      })
+        topOffset: top
+      }]
     })
-  }
-
-  onRenderEditor = (div: HTMLDivElement) => {
-    this.setState({ editorTopOffset: div.offsetTop })
   }
 }
