@@ -97,9 +97,8 @@ export class Editor extends React.Component<Props, State> {
 
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
         allowNonTsExtensions: true,
-        target: monaco.languages.typescript.ScriptTarget.ES5,
-        noEmit: true,
-        noLib: true
+        lib: ['dom', 'es2015', 'es2016.array.include'],
+        target: monaco.languages.typescript.ScriptTarget.ES5
       })
 
       // EXPENSIVE: takes ~80ms/call
