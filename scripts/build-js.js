@@ -3,7 +3,7 @@ const fs = require('fs')
 module.exports.options = {
   debug: true,
   detectGlobals: false,
-  entries: ['./src/index.tsx'],
+  entries: ['./src/client/index.tsx'],
   extension: ['js', 'ts', 'tsx'],
   external: ['lodash', 'react', 'react-dom'],
   insertGlobalVars: false,
@@ -21,4 +21,4 @@ require('browserify')(module.exports.options)
   .bundle()
   .on('error', error => console.error(error.toString()))
   .on('log', msg => console.info(msg))
-  .pipe(fs.createWriteStream('./dist/bundle.js'))
+  .pipe(fs.createWriteStream('./dist/client/bundle.js'))
