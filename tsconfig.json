@@ -16,7 +16,7 @@
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "outDir": "dist",
-    "sourceMap": true,
+    "sourceMap": false,
     "strict": true,
     "target": "es5",
     "typeRoots": [

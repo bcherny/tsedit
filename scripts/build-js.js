@@ -1,7 +1,7 @@
 const fs = require('fs')
 
 module.exports.options = {
-  debug: true,
+  debug: false,
   detectGlobals: false,
   entries: ['./src/client/index.tsx'],
   extension: ['js', 'ts', 'tsx'],
