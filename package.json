@@ -18,6 +18,7 @@
     "start": "IS_PROD=true node ./dist/index.js",
     "start:dev": "reload -d ./dist",
     "tdd": "concurrently -k 'npm run serve:dev' 'npm run watch'",
+    "test": "exit 0",
     "watch:css": "postcss -w -c ./scripts/postcss.config.js -o ./dist/client/bundle.css ./src/client/index.css",
     "watch:html": "watch \"npm run build:client:html\" src/client/",
     "watch:js": "node ./scripts/watch-js.js",
