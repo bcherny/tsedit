@@ -12,8 +12,7 @@ const ROOT = IS_PROD ? `https://tsedit.co/` : `http://localhost:${HTTP_PORT}/`
 
 let app = express()
   .use(compression())
-  .get('/', express.static(CLIENT_DIR))
-  .get('/*.(css|js|html)', express.static(CLIENT_DIR))
+  .get('*', express.static(CLIENT_DIR))
 
 if (IS_PROD) {
   createHTTPSServer({
@@ -27,12 +26,8 @@ if (IS_PROD) {
 
   // redirect http to https
   express()
-    .get('*', (req, res) =>
-      res.redirect(ROOT + req.url)
-    )
-    .listen(HTTP_PORT, () =>
-      console.info(`Started HTTP server on port ${HTTP_PORT}...`)
-    )
+    .get('*', (_, res) => res.redirect(ROOT))
+    .listen(HTTP_PORT, () => console.info(`Started HTTP server on port ${HTTP_PORT}...`))
 } else {
   createHTTPServer(app)
     .on('info', (_: any) => console.info('HTTP server:', _))
