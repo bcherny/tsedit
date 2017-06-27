@@ -1,4 +1,6 @@
-# tsedit
+# tsedit [![Build Status][build]](https://circleci.com/gh/bcherny/tsedit)
+
+[build]: https://img.shields.io/circleci/project/bcherny/tsedit.svg?branch=master&style=flat-square
 
 > https://tsedit.co
 
