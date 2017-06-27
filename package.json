@@ -8,7 +8,7 @@
     "build:client:html": "./scripts/build-html.js < ./src/client/index.html > ./dist/client/index.html",
     "build:client:images": "cp ./src/client/favicon.png ./dist/client/favicon.png",
     "build:client:js": "node ./scripts/build-js.js",
-    "build:client:js:monaco": "cp -r ./node_modules/monaco-editor/min/vs/ ./dist/client/vs/ && chmod -R +r ./dist",
+    "build:client:js:monaco": "cp -r ./node_modules/monaco-editor/min/vs/. ./dist/client/vs/ && chmod -R +r ./dist",
     "build:client": "npm run build:client:js:monaco && npm run build:client:js && npm run build:client:html && npm run build:client:images && npm run build:client:css",
     "build:server": "tsc --outDir dist src/server/index.ts",
     "build": "npm run clean && npm run build:client && npm run build:server",
