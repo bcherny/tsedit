@@ -5,7 +5,7 @@ type State = {
 let state: State = {}
 
 /** run some js in a webworker */
-export function run<T>(js: string): Promise<T> {
+export function run<T = string>(js: string): Promise<T> {
   return new Promise((resolve, reject) => {
     let worker = init()
     worker.addEventListener('message', e => resolve(e.data), false)

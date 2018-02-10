@@ -116,3 +116,7 @@ th {
   position: absolute;
     left: 10px;
 }
+
+.ResultsContainer > .Result.error {
+  color: red;
+}

@@ -9,6 +9,7 @@ const b = require('browserify')(Object.assign({}, options, {
 .plugin('tsify', {typescript: require('typescript')})
 .plugin('watchify')
 .transform('browserify-shim', {
+  "lodash": "global:_",
   "react": "global:React",
   "react-dom": "global:ReactDOM"
 })

@@ -1,8 +1,5 @@
 import * as React from 'react'
-// import { parseTokenTheme } from '../../utils/theme'
-// const theme = require('theme-quietlight-vsc/themes/QuietLight.json')
-// console.log(theme)
-// const parsedTheme = parseTokenTheme(theme.settings)
+import { render } from 'react-dom'
 
 type Props = {
   height?: number
@@ -34,10 +31,12 @@ const MONACO_OPTIONS: monaco.editor.IEditorConstructionOptions = {
   // lineDecorationsWidth: 0,
   lineHeight: 28,
   lineNumbers: 'on',
+  minimap: {
+    enabled: false
+  },
   renderLineHighlight: 'none',
-  scrollbar: '',
   value: '',
-  wordWrap: true
+  wordWrap: 'on'
 }
 
 const READONLY_OPTIONS: monaco.editor.IEditorConstructionOptions = {
@@ -87,14 +86,6 @@ export class Editor extends React.Component<Props, State> {
     this.setState({ div, isLoadingEditor: true, width: div.offsetWidth });
     (window as any).require(['vs/editor/editor.main'], () => {
 
-      // monaco.editor.defineTheme('QuietLight', {
-      //   base: 'vs',
-      //   inherit: false,
-      //   rules: [
-      //     { token: 'editor.background', background: '000000' }
-      //   ]
-      // })
-
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
         allowNonTsExtensions: true,
         lib: ['dom', 'es2015', 'es2016.array.include'],
@@ -114,6 +105,19 @@ export class Editor extends React.Component<Props, State> {
         tabSize: 2,
         trimAutoWhitespace: true
       })
+
+      let overlayDiv = document.createElement('div')
+      render(<CommandEnterToRun onClick={this.run} />, overlayDiv)
+      let widget: monaco.editor.IOverlayWidget = {
+        getDomNode: () => overlayDiv,
+        getId: () => 'command-enter-to-run',
+        getPosition: () => {
+          return {
+            preference: monaco.editor.OverlayWidgetPositionPreference.TOP_RIGHT_CORNER
+          }
+        }
+      }
+      editor.addOverlayWidget(widget)
 
       editor.onKeyDown(this.onKeyDown)
       this.setState({ editor, isLoadingEditor: false })
@@ -171,3 +175,13 @@ export class Editor extends React.Component<Props, State> {
     }
   }
 }
+
+type CommandEnterToRunProps = {
+  onClick(): void
+}
+
+let CommandEnterToRun: React.StatelessComponent<CommandEnterToRunProps> =
+  ({ onClick }: CommandEnterToRunProps) =>
+    <div className='CommandEnterToRun'>
+      Press <span className='KeyPill' onClick={onClick}>⌘ + ENTER</span> to run
+    </div>

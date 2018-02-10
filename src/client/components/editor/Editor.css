@@ -13,3 +13,26 @@
 .Editor.ReadOnly .monaco-editor.vs .line-numbers {
   color: #bac1c3;
 }
+
+.CommandEnterToRun {
+  color: #999;
+}
+
+.Editor.ReadOnly .CommandEnterToRun {
+  display: none;
+}
+
+.KeyPill {
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  display: inline-block;
+  padding: 1px 8px 0;
+  transition: all .1s ease-in-out;
+}
+
+.KeyPill:hover {
+  background: #f9f9f9;
+  border-color: #bbb;
+  color: #888;
+  cursor: pointer;
+}

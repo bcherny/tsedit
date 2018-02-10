@@ -1,14 +1,23 @@
 import * as React from 'react'
+import { chain } from 'lodash'
 import { Editor } from '../editor/Editor'
 import { compile } from '../../utils/compile'
 import { run } from '../../utils/run'
+import { Result } from '../../datatypes'
 
 type Props = {}
 
 type State = {
   committedEdits: string[]
   count: number
-  results: { code: string, count: number, result: any, topOffset: number }[]
+  results: ResultDescription[]
+}
+
+type ResultDescription = {
+  code: string
+  count: number
+  result: Result
+  topOffset: number
 }
 
 const LINE_HEIGHT = 28
@@ -29,8 +38,8 @@ export class App extends React.Component<Props, State> {
       </div>
       <div className='Column Right ResultsContainer'>
         {this.state.results.map(({ count, result, topOffset }) =>
-          <div className='Result' key={count} style={{ top: topOffset }}>
-            { result }
+          <div className={'Result ' + result.type} key={count} style={{ top: topOffset }}>
+            { result.value }
           </div>
         )}
       </div>
@@ -42,13 +51,30 @@ export class App extends React.Component<Props, State> {
   }
 
   evaluate = async (ts: string, top: number) => {
+    let result: Result
+    let existingCode = chain(this.state.committedEdits)
+      .zip(this.state.results)
+      .filter(([_, r]: [string, ResultDescription]) => r.result.type === 'success')
+      .map(([_]) => _)
+      .value()
+    try {
+      result = {
+        type: 'success',
+        value: await run(compile(existingCode.join('\n') + '\n' + ts))
+      }
+    } catch (e) {
+      result = {
+        type: 'error',
+        value: e.message
+      }
+    }
     this.setState({
       committedEdits: [...this.state.committedEdits, ts],
       count: this.state.count + 1,
       results: [...this.state.results, {
         code: ts,
         count: this.state.count,
-        result: await run(compile(this.state.committedEdits.join('\n') + '\n' + ts)),
+        result,
         topOffset: top + (this.committedLines() * LINE_HEIGHT)
       }]
     })

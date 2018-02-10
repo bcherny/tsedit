@@ -15,6 +15,7 @@ require('browserify')(module.exports.options)
     typescript: require('typescript')
   })
   .transform('browserify-shim', {
+    "lodash": "global:_",
     "react": "global:React",
     "react-dom": "global:ReactDOM"
   })

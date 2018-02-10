@@ -1,7 +1,6 @@
 {
   "rules": {
 
-    // immutable
     "no-this": true,
     "no-class": true,
     "no-new": true,
