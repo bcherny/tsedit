@@ -4,10 +4,10 @@ set -e
 cd /home/tsedit
 git pull origin master
 
-npm i
-npm run build
+yarn
+yarn build
 echo "Built successfully."
 
-npm run stop
-npm run start
+yarn stop
+yarn start
 echo "Server refreshed and restarted successfully."
