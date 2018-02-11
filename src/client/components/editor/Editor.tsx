@@ -88,7 +88,15 @@ export class Editor extends React.Component<Props, State> {
 
       monaco.languages.typescript.typescriptDefaults.setCompilerOptions({
         allowNonTsExtensions: true,
+        alwaysStrict: true,
+        experimentalDecorators: true,
+        jsx: monaco.languages.typescript.JsxEmit.React,
         lib: ['dom', 'es2015', 'es2016.array.include'],
+        noFallthroughCasesInSwitch: true,
+        noImplicitAny: true,
+        noImplicitReturns: true,
+        noImplicitThis: true,
+        strictNullChecks: true,
         target: monaco.languages.typescript.ScriptTarget.ES5
       })
 
